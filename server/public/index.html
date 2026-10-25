@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.basemaps.cartocdn.com; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'">
+<title>Pre-Crime — Mapa de Risco</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="app.css">
+<script src="theme.js"></script>
+</head>
+<body>
+
+<nav id="sidebar" aria-label="Filtros">
+  <div class="brand"><span id="site-title">Pre-Crime</span> <small>mapa de risco</small></div>
+  <p class="intro" id="site-intro" hidden></p>
+
+  <label class="field">
+    <span>Área</span>
+    <select id="sel-area"></select>
+  </label>
+
+  <label class="field">
+    <span>Modelo</span>
+    <select id="sel-model">
+      <option value="Ensemble">Ensemble</option>
+      <option value="RF">Random Forest</option>
+      <option value="LSTM">LSTM</option>
+      <option value="Transformer">Transformer</option>
+    </select>
+  </label>
+
+  <label class="field">
+    <span>Mês previsto</span>
+    <select id="sel-month"></select>
+  </label>
+
+  <dl class="info">
+    <dt>Período</dt><dd id="info-period">—</dd>
+    <dt>Horizonte</dt><dd><span id="info-horizon">—</span> semanas</dd>
+    <dt>Validação</dt><dd id="info-validated">—</dd>
+  </dl>
+
+  <p class="notice" id="site-notice">
+    Previsão estatística a partir de registros da SSP-SP. Indica concentração provável de furtos e
+    roubos de veículos por área, não aponta pessoas. Crimes não registrados ficam fora dos dados.
+  </p>
+</nav>
+
+<div id="main">
+  <header id="header">
+    <div class="header-top">
+      <button id="menu-toggle" aria-label="Abrir filtros">☰</button>
+      <h1 id="page-title">—</h1>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-label">Grids na área</div><div class="kpi-value" id="kpi-grids">—</div></div>
+      <div class="kpi"><div class="kpi-label">Grids em alerta</div><div class="kpi-value" id="kpi-risk">—</div><div class="kpi-sub" id="kpi-risk-pct"></div></div>
+      <div class="kpi"><div class="kpi-label">Crimes reais no mês</div><div class="kpi-value" id="kpi-crimes">—</div></div>
+      <div class="kpi"><div class="kpi-label">PAI</div><div class="kpi-value" id="kpi-pai">—</div><div class="kpi-sub">vezes melhor que ao acaso</div></div>
+    </div>
+  </header>
+
+  <div id="tabbar" role="tablist">
+    <button class="tab active" role="tab" data-tab="map" aria-selected="true">Mapa</button>
+    <button class="tab" role="tab" data-tab="perf" aria-selected="false">Desempenho</button>
+  </div>
+
+  <main id="content">
+    <!-- MAPA -->
+    <section class="panel active" id="panel-map" role="tabpanel">
+      <div class="kpis kpis-audit" id="audit-row">
+        <div class="kpi"><div class="kpi-label">Crimes nas zonas de alerta</div><div class="kpi-value ok" id="ak-captured">—</div><div class="kpi-sub" id="ak-captured-pct"></div></div>
+        <div class="kpi"><div class="kpi-label">Crimes fora das zonas</div><div class="kpi-value err" id="ak-missed">—</div><div class="kpi-sub" id="ak-missed-pct"></div></div>
+        <div class="kpi"><div class="kpi-label"><i class="sw sw-high"></i>Zona vermelha</div><div class="kpi-value" id="ak-red">—</div><div class="kpi-sub" id="ak-red-pct"></div></div>
+        <div class="kpi"><div class="kpi-label"><i class="sw sw-mid"></i>Zona amarela</div><div class="kpi-value" id="ak-yellow">—</div><div class="kpi-sub" id="ak-yellow-pct"></div></div>
+        <div class="kpi"><div class="kpi-label">Acerto da zona vermelha</div><div class="kpi-value" id="ak-precision">—</div><div class="kpi-sub">grids vermelhos com crime</div></div>
+      </div>
+      <div class="audit-empty" id="audit-empty" hidden>Este mês ainda não tem crimes reais para comparar. O mapa mostra só a previsão.</div>
+
+      <div class="card map-wrap">
+        <div id="map" aria-label="Mapa de risco"></div>
+        <div class="map-offline" id="map-offline" role="status" hidden>Sem internet: fundo com as ruas da área</div>
+        <div class="legend">
+          <span><i class="sw sw-high"></i>Alto risco</span>
+          <span><i class="sw sw-mid"></i>Médio risco</span>
+          <span><i class="sw sw-crime"></i>Crime real (amostra)</span>
+          <span class="muted">Clique num grid para ver as últimas 24 semanas</span>
+          <label class="cmp-ctl">Comparar com <select id="sel-cmp" aria-label="Comparar com outro modelo ou mês"><option value="">— nada —</option></select></label>
+          <span class="spacer"></span>
+          <button class="btn-sm" id="btn-png" title="Baixar a previsão desta área como imagem">⤓ Baixar imagem (PNG)</button>
+        </div>
+        <aside id="grid-panel" class="grid-panel hidden" aria-live="polite">
+          <button class="gp-close" id="gp-close" aria-label="Fechar">×</button>
+          <div id="gp-content"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- DESEMPENHO -->
+    <section class="panel" id="panel-perf" role="tabpanel">
+      <div class="empty" id="perf-empty" hidden>
+        Sem crimes reais para este mês ainda. As métricas aparecem depois da validação, quando a SSP publicar os dados.
+      </div>
+      <div id="perf-body">
+        <div class="grid-2">
+          <div class="card">
+            <h2 class="card-title">Acertos e erros — <span id="cm-model"></span></h2>
+            <div id="cm-wrap"></div>
+          </div>
+          <div class="card">
+            <h2 class="card-title">Quanto patrulhar</h2>
+            <p class="hint">Percentual dos crimes do mês que caíram nos grids de maior risco, conforme a área coberta.</p>
+            <canvas id="chart-coverage" height="220"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="card-title">Comparação entre modelos — <span id="comp-area"></span></h2>
+          <div id="comp-table"></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><h2 class="card-title">Crimes capturados na zona vermelha (%)</h2><canvas id="chart-hitrate" height="220"></canvas></div>
+          <div class="card"><h2 class="card-title">F1-Score</h2><canvas id="chart-f1" height="220"></canvas></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="overlay"></div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/chart.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

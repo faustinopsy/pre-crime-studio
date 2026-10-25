@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src http://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Pre-Crime Studio</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="app.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <pc-stepper id="stepper"></pc-stepper>
+  <div class="body">
+    <nav class="sidebar" id="sidebar" aria-label="Navegação"></nav>
+    <main class="screen" id="screen" tabindex="-1"></main>
+  </div>
+  <pc-log-drawer id="drawer"></pc-log-drawer>
+  <footer class="statusbar" id="statusbar" aria-live="polite"></footer>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</body>
+</html>

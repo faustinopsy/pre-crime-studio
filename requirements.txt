@@ -1,0 +1,28 @@
+# Dependências do pipeline (sem streamlit/folium/plotly, que não são usados).
+# PyTorch é instalado à parte pelo app (tela Ambiente) ou manualmente:
+#   GPU NVIDIA: pip install torch --index-url https://download.pytorch.org/whl/cu124
+#   Só CPU:     pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# Dados e ML
+numpy>=1.26
+pandas>=2.0
+scikit-learn
+scipy
+joblib
+
+# Geoespacial (no Windows os wheels do pyogrio já trazem o GDAL)
+geopandas
+shapely
+pyproj
+pyogrio
+osmnx
+
+# Gráficos usados por pipeline/train/validation.py e step7_metrics.py
+matplotlib
+seaborn
+
+# Utilitários
+psutil
+requests
+openpyxl
+tqdm

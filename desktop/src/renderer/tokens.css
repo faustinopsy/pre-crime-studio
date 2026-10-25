@@ -1,0 +1,27 @@
+/* Tokens do Pre-Crime Studio. Escuro é o padrão; claro via [data-theme="light"].
+   Vermelho e amarelo puros ficam reservados ao mapa de risco: a interface usa ciano
+   para ação e sempre ícone + texto para estados. */
+:root {
+  --bg: #0a0f1c; --bg-2: #0f1628; --surface: #131c33; --surface-2: #1a2440; --surface-3: #212d4f;
+  --line: rgba(148, 163, 184, .14); --line-strong: rgba(148, 163, 184, .28);
+  --text: #e6ebf5; --muted: #8a96b3; --faint: #5d6a88;
+  --accent: #38bdf8; --accent-2: #818cf8; --accent-ink: #04121f; --accent-soft: rgba(56, 189, 248, .14);
+  --ok: #34d399; --warn: #fbbf24; --err: #fb7185; --info: #60a5fa; --stale: #a78bfa;
+  --ok-soft: rgba(52, 211, 153, .14); --warn-soft: rgba(251, 191, 36, .14); --err-soft: rgba(251, 113, 133, .14); --stale-soft: rgba(167, 139, 250, .16);
+  --risk-high: #ff0000; --risk-mid: #ffff00;
+  --radius: 10px; --radius-sm: 6px;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Cascadia Mono", "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: #f5f7fb; --bg-2: #eef2f8; --surface: #ffffff; --surface-2: #f3f6fb; --surface-3: #e8edf6;
+  --line: #dde3ee; --line-strong: #c5cfdf;
+  --text: #0f172a; --muted: #5b6780; --faint: #8a94aa;
+  --accent: #0284c7; --accent-2: #4f46e5; --accent-ink: #ffffff; --accent-soft: rgba(2, 132, 199, .10);
+  --ok: #059669; --warn: #b45309; --err: #e11d48; --info: #2563eb; --stale: #7c3aed;
+  --ok-soft: rgba(5, 150, 105, .10); --warn-soft: rgba(180, 83, 9, .10); --err-soft: rgba(225, 29, 72, .08); --stale-soft: rgba(124, 58, 237, .10);
+  --shadow: 0 4px 14px rgba(15, 23, 42, .08);
+  color-scheme: light;
+}

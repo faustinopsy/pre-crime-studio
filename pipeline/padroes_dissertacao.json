@@ -1,0 +1,38 @@
+{
+  "_sobre": "Valores da dissertação: o único lugar onde ficam os padrões. pipeline/config.py lê este arquivo, e o app mostra cada campo com o selo 'padrão da dissertação' e o botão 'Restaurar padrão da dissertação' a partir dele. O que o operador muda vai por PRECRIME_CONFIG_OVERRIDES; este arquivo não muda.",
+  "GLOBAL_SEED": 42,
+  "DATE_START_DATA": "2020-01-01",
+  "CLEAN_PARAMS": {
+    "MUNICIPIOS": ["S.PAULO"],
+    "OCORRENCIAS": ["FURTADO", "ROUBADO"],
+    "TIPOS_VEICULO": null,
+    "REMOVER_DUPLICADOS": true
+  },
+  "FILTER_PARAMS": {
+    "REMOVER_CELULAS_REPETIDAS": false
+  },
+  "ML_CONFIG": {
+    "RF": {"n_estimators": 150, "max_depth": 20, "min_samples_split": 2, "min_samples_leaf": 1, "n_jobs": -1, "random_state": 42},
+    "LSTM": {"hidden_dim": 64, "layer_dim": 1, "dropout_prob": 0.2, "learning_rate": 0.001, "epochs": 10, "batch_size": 2048, "pos_weight": 10.0},
+    "Transformer": {"embed_dim": 32, "num_heads": 2, "ff_dim": 32, "num_layers": 1, "dropout_prob": 0.1, "learning_rate": 0.001, "epochs": 5, "batch_size": 2048, "pos_weight": 10.0}
+  },
+  "ENSEMBLE_CONFIG": {
+    "MODEL_WEIGHTS": {"RF": 0.1, "LSTM": 0.5, "Transformer": 0.4},
+    "HYBRID_FORMULA": {"MEAN_WEIGHT": 0.7, "MAX_WEIGHT": 0.3},
+    "COMBINACAO": "probabilidades",
+    "POI_BOOST_FACTOR": 0.15,
+    "POI_WEIGHTS": {"bar": 1.0, "pub": 1.0, "nightclub": 2.0, "police": -2.0, "_padrao": 1.0},
+    "POI_NORMALIZACAO": "com_poi",
+    "MIN_HISTORICAL_CRIMES": 1,
+    "TEMPORAL_SMOOTHING": {"ENABLED": false, "WINDOW": 2, "ALPHA": 0.7, "EIXO": "grids"}
+  },
+  "COBERTURA": {"ALTO": 0.10, "MEDIO": 0.20},
+  "CORTE": "maior_igual",
+  "METRICS_THRESHOLDS": {
+    "CONFUSION_MATRIX_MODE": "HIGH_ONLY",
+    "REAL_CRIME_THRESHOLD": 0,
+    "ABSOLUTE_MIN_PROB": 0.01,
+    "DYNAMIC_THRESHOLD": false,
+    "HIGH_RISK_SEARCH_RANGE": [0.70, 0.99, 30]
+  }
+}

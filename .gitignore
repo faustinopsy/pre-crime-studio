@@ -1,0 +1,29 @@
+# Dados (planilhas da SSP, malhas, resultados, modelos)
+data/*
+!data/README.md
+
+# Base fixa do app (malhas e POIs, ~180 MB) — vai junto no instalador
+base/*
+!base/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Electron
+node_modules/
+desktop/dist/
+desktop/out/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+~$*
+*.tmp
+.vscode/
+.idea/
+
+# Pastas de trabalho locais
+_anteriores/

@@ -1,0 +1,27 @@
+{
+  "_sobre": "Categorias que a tela Pontos de interesse oferece para baixar do OpenStreetMap. Cada item vira a etiqueta (tag) chave=valor da consulta; valor '*' pega todos os valores da chave (ex.: shop=* vira shop:clothes, shop:bakery...). 'marcado' = já vem escolhido. Os pontos da dissertação foram baixados com amenity bar, pub, nightclub, restaurant, bank, police, bus_station e shop=*.",
+  "grupos": [
+    {"id": "noite", "nome": "Lazer noturno", "itens": [
+      {"chave": "amenity", "valor": "bar", "nome": "Bar", "marcado": true},
+      {"chave": "amenity", "valor": "pub", "nome": "Pub", "marcado": true},
+      {"chave": "amenity", "valor": "nightclub", "nome": "Casa noturna", "marcado": true}
+    ]},
+    {"id": "seguranca", "nome": "Segurança", "itens": [
+      {"chave": "amenity", "valor": "police", "nome": "Delegacia / base policial", "marcado": true},
+      {"chave": "amenity", "valor": "fire_station", "nome": "Bombeiros", "marcado": false},
+      {"chave": "landuse", "valor": "military", "nome": "Área militar", "marcado": false}
+    ]},
+    {"id": "comercio", "nome": "Comércio e serviços", "itens": [
+      {"chave": "amenity", "valor": "restaurant", "nome": "Restaurante", "marcado": false},
+      {"chave": "amenity", "valor": "bank", "nome": "Banco", "marcado": false},
+      {"chave": "amenity", "valor": "fuel", "nome": "Posto de combustível", "marcado": false},
+      {"chave": "amenity", "valor": "parking", "nome": "Estacionamento", "marcado": false},
+      {"chave": "shop", "valor": "*", "nome": "Lojas (todos os tipos)", "marcado": false}
+    ]},
+    {"id": "transporte", "nome": "Transporte", "itens": [
+      {"chave": "amenity", "valor": "bus_station", "nome": "Terminal de ônibus", "marcado": false},
+      {"chave": "railway", "valor": "station", "nome": "Estação de trem ou metrô", "marcado": false},
+      {"chave": "public_transport", "valor": "station", "nome": "Estação de transporte público", "marcado": false}
+    ]}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "precrime-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Servidor do mapa Pre-Crime (dashboard + /api) sem dependências.",
+  "type": "module",
+  "main": "server.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node tools/smoke.js"
+  }
+}
