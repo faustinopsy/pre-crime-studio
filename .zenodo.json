@@ -1,0 +1,18 @@
+{
+  "title": "Pre-Crime Studio: monthly hotspot forecasting of vehicle theft and robbery in São Paulo",
+  "upload_type": "software",
+  "version": "v1.0.0",
+  "language": "eng",
+  "license": "MIT",
+  "description": "Code for grid construction, feature pipeline, prospective replay forecasts and evaluation of monthly crime hotspot forecasts of vehicle theft and robbery in São Paulo, Brazil. Version used in the manuscripts 'Information, not architecture: what limits monthly hotspot forecasts of vehicle theft and robbery in São Paulo' and 'The winner depends on the measurement: silent errors and legitimate choices that reorder crime hotspot forecasts'.",
+  "creators": [
+    {"name": "Faustino, Rodrigo dos Santos", "affiliation": "Universidade Nove de Julho", "orcid": "0009-0001-2106-4586"},
+    {"name": "Deana, Alessandro Melo", "affiliation": "Universidade Nove de Julho", "orcid": "0000-0002-0014-6953"},
+    {"name": "Quaresma, Cristiano Capellani", "affiliation": "Universidade Nove de Julho", "orcid": "0000-0002-9486-9174"},
+    {"name": "Pereira, Fábio Henrique", "affiliation": "Universidade Nove de Julho", "orcid": "0000-0002-6075-5566"}
+  ],
+  "keywords": ["crime forecasting", "hotspots", "vehicle theft", "predictive policing", "model evaluation", "São Paulo"],
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.23652421", "relation": "isSupplementedBy", "resource_type": "dataset", "scheme": "doi"}
+  ]
+}
